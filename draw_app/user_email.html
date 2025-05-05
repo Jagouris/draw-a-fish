@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title>Draw a fish!</title>
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Permanent+Marker">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Preahvihear">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <p class="info">Before your fish appears in the aquarium, would you like to enter your e-mail address to learn about the oceans, and human beings' impact on the habitat of fish?</p>
+        
+        <div style="margin: 0 auto; width: 500px; text-align: center;">
+            <label for="email" style="font-family: Caveat; color: #fce703; font-size: 20px; font-weight: bold;">Tick for yes: </label>
+            <input type="checkbox" id="yesno" name="yesno" checked="checked">
+        
+            <br /><br />
+        
+            <label for="email" style="font-family: Caveat; color: #fce703; font-size: 20px; font-weight: bold;">Your e-mail address: </label>
+            <input type="text" id="email" name="email"><br><br>
+        
+            <input type="button" id="submit_button" name="submit_button" value="submit"/>
+        </div>
+        
+        <script type="module">
+            let export_image = localStorage.getItem('export_image');
+        
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
+
+            import { getStorage, ref, uploadString } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+
+            const firebaseConfig = {
+                apiKey: //REDACTED,
+                authDomain: //REDACTED,
+                databaseURL: //REDACTED,
+                projectId: //REDACTED,
+                storageBucket: //REDACTED,
+                messagingSenderId: //REDACTED,
+                appId: //REDACTED,
+                measurementId: //REDACTED
+            };
+            
+            const app = initializeApp(firebaseConfig);
+            
+            const storage = getStorage();
+
+            const storageRef = ref(storage, "fishes");
+
+            const d = new Date();
+
+            let submitButton = document.getElementById("submit_button");
+
+            submitButton.addEventListener('click', submitImage);
+
+            function submitImage(){
+                uploadString(ref(storage, "fishes/fish" + d.getTime() + ".png"), export_image, 'data_url').then((snapshot) => {
+                    window.location.href = "image_uploaded.html";
+                });
+            }
+          </script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+* {
+    font-family: Arial;
+    font-size: 15px;
+    
+}
+
+body {
+    background: #0398fc;
+}
+
+h1 {
+    font-family: Permanent Marker;
+    font-size: 70px;
+    color: #fce703;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20;
+}
+
+.info {
+    font-family: Caveat;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fce703;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20;
+}

@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Draw a fish!</title>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.5/lib/p5.min.js"></script>
+        
+        <link rel="    " href="https://fonts.googleapis.com/css?family=Permanent+Marker">
+        <link rel="    " href="https://fonts.googleapis.com/css?family=Preahvihear">
+        <link rel="    " href="https://fonts.googleapis.com/css?family=Caveat">
+        <link rel="    " href="style.css">
+    </head>
+    <body>
+        <h1>Draw a fish!</h1>
+        <p class="info">~ • ~</p>
+        <p class="info">Draw on the canvas below.</p>
+        <p class="info">~ • ~</p>
+        <p class="info">You can use the controls to change the colour or size of your brush.</p>
+        <p class="info">~ • ~</p>
+        <p class="info">When you're done press "Submit" to see your fish come to life!</p>
+        <p class="info">~ • ~</p>
+        <p class="info">Make sure to draw your fish facing left</p>
+        <p class="info">~ • ~</p>
+        
+        <div style="margin: 0 auto; width: 500px;">
+            <input type="color" id="brush_color" name="brush_color" value="#e66465" />
+            <label for="brush_color" style="font-family: Caveat; color: #fce703; font-size: 20px; font-weight: bold;">Brush Colour</label>
+        
+            <input type="range" id="brush_size" name="brush_size" min="1" max="5" />
+            <label for="brush_size" style="font-family: Caveat; color: #fce703; font-size: 20px; font-weight: bold;">Brush Size</label>
+        
+        
+            <input type="button" id="submit_button" name="submit_button" value="submit"/>
+        </div>
+        
+        <div id='drawing_canvas' style="background: #fff; margin: 0 auto; padding: 0; width: 500px; height: 500px;">
+        </div>
+
+        
+        <script type="module">
+            submitButton = document.getElementById("submit_button");
+
+            submitButton.addEventListener('click', submitImage);
+
+            function submitImage(){
+                let export_image = new Image();
+
+                  export_image = document.getElementById("defaultCanvas0").toDataURL("image/png");
+                
+                localStorage.setItem('export_image', export_image);
+                
+                window.location.href = "user_email.html";
+            }
+
+            let template_image = document.getElementById("drawing_canvas");
+
+            show_template.addEventListener('change', function() {
+                if (this.checked) {
+                    template_image.style.background = "url(template.png)";
+                } else {
+                    template_image.style.background = "#fff";
+                }
+            });
+          </script>
+
+        <div style="margin: 0 auto; width: 500px;">
+            <label for="show_template" style="font-family: Caveat; color: #fce703; font-size: 20px; font-weight: bold;">Show template?</label>
+            <input type="checkbox" id="show_template" name="show_template">
+        </div>
+
+        <script src="sketch.js"></script>
+    </body>
+</html>

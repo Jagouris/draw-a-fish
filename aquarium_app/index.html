@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Draw a fish!</title>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.5/lib/p5.min.js"></script>
+    </head>
+    <body>
+        <script>
+            let images_loaded = false;
+            let loaded_images = [];
+            let source_images = [];
+
+            let test_image;
+        </script>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"
+
+            import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+
+            const firebaseConfig = {
+                apiKey: //REDACTED,
+                    authDomain: //REDACTED,
+                    databaseURL: //REDACTED,
+                    projectId: //REDACTED,
+                    storageBucket: //REDACTED,
+                    messagingSenderId: //REDACTED,
+                    appId: //REDACTED,
+                    measurementId: //REDACTED
+            };
+
+            const app = initializeApp(firebaseConfig);
+            
+            const storage = getStorage();
+
+            const storageRef = ref(storage, "fishes/");
+
+            let total_images;
+            
+            let script = document.createElement('script');
+            script.src = "sketch.js";
+
+            console.log(script.src);
+            
+            listAll(storageRef)
+                .then((res) => {
+                    res.prefixes.forEach((folderRef) => {
+                    console.log(folderRef);
+                });
+
+                total_images = res.items.length;
+
+                res.items.forEach((itemRef) => {
+                    // All the items under listRef.
+
+                    console.log(itemRef);
+                    getDownloadURL(ref(storage, itemRef._location.path_))
+                        .then((url) => {
+                            let index = source_images.length;
+                            
+                            source_images[index] = url;
+
+                            loaded_images.push(index);
+                        })
+                        .catch((error) => {
+                            // Handle any errors
+                        });
+                });
+            }).catch((error) => {
+                // Uh-oh, an error occurred!
+            });
+
+            setInterval(getImages, 10000);
+
+            document.head.appendChild(script);
+
+            function getImages(){
+                console.log("new images:");
+
+                listAll(storageRef)
+                .then((res) => {
+                    res.prefixes.forEach((folderRef) => {
+                    // All the prefixes under listRef
+                    // You may call listAll() recursively on them.
+                    console.log(folderRef);
+                });
+
+                total_images = res.items.length;
+
+                res.items.forEach((itemRef) => {
+                    // All the items under listRef.
+
+                    console.log(itemRef);
+                    getDownloadURL(ref(storage, itemRef._location.path_))
+                        .then((url) => {
+                            let index = source_images.length;
+                                let stored_already = false;
+
+                                for(var i = 0; i < source_images.length; i++){
+                                    if(url == source_images[i]){
+                                        stored_already = true;
+                                    }
+                                }
+
+                                if(stored_already == false){
+                                    source_images[index] = url;
+                                    console.log(url);
+
+                                    loaded_images.push(index);
+                                }
+                        })
+                        .catch((error) => {
+                            // Handle any errors
+                        });
+                    
+                });
+
+                
+            }).catch((error) => {
+                // Uh-oh, an error occurred!
+            });
+            }            
+        </script>
+    </body>
+</html>
